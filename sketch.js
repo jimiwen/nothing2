@@ -3,8 +3,10 @@ let nox = [];
 let nox2 = [];
 let nox3 = [];
 
+
 function setup() {
   createCanvas(1200, 1120);
+//  randomSeed(919);
 
   nothing.stoke = [
     "pie",
@@ -90,20 +92,20 @@ function setup() {
   for (let p = 0; p < 12; p++) {  // 12字 用印
     let pp = p * random(0, 100);
     let qq = p * random(0, 100);
-    for (let i = 0; i < 3; i++) {  //3個字
+    for (let i = 0; i < 12; i++) {  //3個字
       let k = 0;
       while (k < 12) {        // 12筆畫
-        if (random(0, 1) < 0.57) {
+        if (random(0, 1) < 0.77) {
           m = round(random(0, 11));
         } else {
           m = k;
         }
-        nox3[k + 12 * i + 12 * 3 * p] = new Caligraphy(
+        nox3[k + 12 * i + 12 * 12 * p] = new Caligraphy(
           nothing.r[k],
           nothing.theta[k],
           nothing.stoke[m],
-          nothing.centre[0] + 40 - 10 * i + pp - 0.2 * qq,
-          nothing.centre[1] + 950 + 20 * i - qq + 0.2 * pp,
+          nothing.centre[0] + 40 - random(-1,1)*10 * i + random(-1,1)*pp - 0.2 * qq,
+          nothing.centre[1] + 950 + random(-1,1)*20 * i - random(-1,1)*qq + 0.2 * pp,
           nothing.width[0] * random(0.2, 1.5),
           nothing.c[1]
         );
@@ -120,11 +122,15 @@ function draw() {
   // print(nothing.stoke.length);
   // print(nothing);
 
+let hengweight= random(2,30);
+let hengstyle =random(0,1);
+let hengyinyang =random(0.1,1);
+console.log(hengyinyang)
   for (i = 0; i < nothing.stoke.length; i++) {
     let k = 0;
     while (k < 12) {
       if (random(0, 1) < 0.61) {
-        nox2[12 * i + k].show();
+        nox2[12 * i + k].show(hengweight,hengstyle,hengyinyang);
       } else {
       }
       k = k + 1;
@@ -132,14 +138,16 @@ function draw() {
   }
 
 
-  let k = 431;
-  while (k > 5* 12) {
-    if (random(0, 1) < 0.78) {
-      nox3[k].stamp();
-    } else {
-    }
-    k = k -1;
-  }
+
+
+  //  let k = 12*12*12-1;
+  // while (k > random(2,6)*12* 12) {
+  //   if (random(0, 1) < 0.08) {
+  //     nox3[k].stamp();
+  //   } else {
+  //   }
+  //   k = k -1;
+  // }
 
 
 
@@ -148,7 +156,7 @@ function draw() {
       let k = 0;
       while (k < 12) {
         if (random(0, 1) < 1 - p / 32 - i / 32) {
-          nox[i + 12 * k + p * 12 * 12].show();
+          nox[i + 12 * k + p * 12 * 12].show(hengweight,hengstyle,hengyinyang);
         } else {
         }
         k = k + 1;
@@ -157,25 +165,27 @@ function draw() {
   }
 
 
+    // for (let k=60; k<1140;k+=5){
+    //   for (let p=30;p<1060;p+=5){
+    //     cc=255;
+    //     stroke(255);
+    //     strokeWeight(random(0.3,1));
+    //     noFill()
+    //     ellipse(k,p,random(0,2))
+    //   }
+    // }
 
-
-  for (let k=60; k<1140;k+=5){
-    for (let p=30;p<1060;p+=5){
-      cc=255;
-      fill(cc);
-      //ellipse(k,p,random(0,4))
-    }
-  }
-
-  while (k >0) {
-    if (random(0, 1) < 0.78) {
-
-      nox3[k].stamp();
-      //nox3[k].show();
-    } else {
-    }
-    k = k -1;
-  }
+  //
+  //
+  // while (k >0) {
+  //   if (random(0, 1) < 0.08*random(0.1,0.8)) {
+  //
+  //     nox3[k].stamp();
+  //     //nox3[k].show();
+  //   } else {
+  //   }
+  //   k = k -1;
+  // }
 
 
 
@@ -197,74 +207,135 @@ class Caligraphy {
     this.w = w;
     this.c = c;
   }
-  show() {
+  show(hengweight,hengstyle,hengyinyang) {
     noStroke();
     let c = this.c;
     if (c == 255) {
     } else {
       colorMode(HSB, 100);
       c = color((0 * 100) / 360, 90, 70);
-      fill(c);
+      //fill(c);
     }
     let x, y, w;
     w = 3 + (this.w / 110) * random(0, 2) + (this.w / 110) * random(0, 2);
     if (this.stoke == "pie") {
-      for (let i = 0; i < round(116 * (this.w / 110)); i+=2) {
-        let x = this.xpos - i * 2;
-        let y = this.ypos + i * 2;
-        fill(c)
-        ellipse(x, y, 1*(w+random(0,5)));
+      let gradpieX=random(1,5) //avg 2
+      let gradpieY=random(1,5) //avg 2
+      let bubblesize=(w*random(4,20));
+      for (let i = 0; i < round(66 * (this.w / 110)); i+=random(5,9)) {
+        let x = this.xpos - i * gradpieX+random(0,5);
+        let y = this.ypos + i * gradpieY+random(0,5);
+        if(random(0,1)<0.3){
+          strokeWeight(random(0.1,2))
+          noFill()
+        } else {
+          noFill()
+          strokeWeight(random(0.1,2))
+          stroke(255 )
+        }
+        ellipse(x, y, (round(66 * (this.w / 110))-i)/round(66 *(this.w / 110))*bubblesize);
       }
-      for (let i = 0; i < round(116 * (this.w / 110)); i+=2){
-        let x = this.xpos - i * 2;
-        let y = this.ypos + i * 2;
-        fill(0)
-        ellipse(x, y, 1*(w+random(0,18)));
+      for (let i = 0; i < round(106 * (this.w / 110)); i+=random(2,5)){
+        let x = this.xpos - i * 2+random(0,5);
+        let y = this.ypos + i * 2+random(0,5);
+        //fill(0)
+        strokeWeight(random(0.1,2))
+        stroke(0)
+        noFill()
+        ellipse(x, y, 0.5*(w+random(0,38)));
         //  print("pie", y);
       }
     } else if (this.stoke == "heng") {
-      for (let i = 0; i < round(120 * (this.w / 110)); i+=2) {
-        let x = this.xpos + i * 2;
-        let y = this.ypos + i * 0;
-        fill(c)
-        ellipse(x, y, 1*(w+random(0,5)));
+      for (let i = 0; i < round(120 * (this.w / 110)); i+=2+hengweight**random(0.4,1.5)) {
+        let x = this.xpos + i * 2+random(0,5);
+        let y = this.ypos + i * 0+random(0,5);
+        if(random(0,1)<hengyinyang){
+          fill(255)
+          stroke(0)
+          strokeWeight(random(0.1*hengweight,0.2*hengweight))
+
+        } else {
+       noFill()
+          stroke(255 )
+          //stroke(0)
+          fill(0)
+          strokeWeight(random(0.1*hengweight,0.2*hengweight))
+        }
+
+        if (hengstyle<0.15){
+        //  fill(255)
+        } else if (hengstyle<0.15){
+      //    fill(0)
+        }else {
+          noFill()
+        }
+        ellipse(x, y, 1*(w+random(4,4+4*hengweight)));
       }
-      for (let i = 0; i < round(120 * (this.w / 110)); i+=2){
-        let x = this.xpos + i * 2;
-        let y = this.ypos + i * 0;
-        fill(0)
-        ellipse(x, y, 1*(w+random(0,5)));
+      for (let i = 0; i < round(100 * (this.w / 110)); i+=2+hengweight*random(0.09,1.5)){
+        let x = this.xpos + i * 2+random(0,5);
+        let y = this.ypos + i * 0+random(0,5);
+    //    fill(255)
+        strokeWeight(random(0.1,2))
+        stroke(0)
+        // noFill()
+        ellipse(x, y, 0.5*(w+random(10,25)));
 
         //  print("heng", w);
       }
     } else if (this.stoke == "shu") {
-      for (let i = 0; i < round(75 * (this.w / 110)); i+=2) {
-        let x = this.xpos + i * 0;
-        let y = this.ypos + i * 2;
-        fill(c)
+      for (let i = 0; i < round(75 * (this.w / 110));  i+=random(48,58)) {
+        let x = this.xpos + i * 0+random(0,5);
+        let y = this.ypos + i * 2+random(0,5);
+        if(random(0,1)<0.3){
+        //  noFill()
+          strokeWeight(random(10,20))
+          stroke(0)
+          fill(0)
+
+        } else {
+          //noFill()
+          stroke(255 )
+          stroke(0)
+         fill(255)
+
+          strokeWeight(random(10,30))
+        }
         ellipse(x, y, 1*(w+random(0,5)));
       }
-      for (let i = 0; i < round(75 * (this.w / 110)); i+=2) {
-        let x = this.xpos + i * 0;
-        let y = this.ypos + i * 2;
-        fill(0)
-        ellipse(x, y, 1*(w+random(0,18)));
+      for (let i = 0; i < round(75 * (this.w / 110)); i+=random(5,8)) {
+        let x = this.xpos + i * 0+random(0,5);
+        let y = this.ypos + i * 2+random(0,5);
+        strokeWeight(1+random(0.1,3))
+        stroke(0)
+        //noFill()
+        ellipse(x, y, 1*(w+random(7,18)));
         //   print("shu", w);
       }
     } else if (this.stoke == "dian") {
-      for (let i = 0; i < round(60 * (this.w / 110)); i+=2) {
-        let x = this.xpos + i * 0;
-        let y = this.ypos + i * 2;
-        fill(c)
-        ellipse(x, y, 1*(w+random(0,5)));
+      for (let i = 0; i < round(10 * (this.w / 110)); i+=random(2,4)) {
+        let x = this.xpos + i * 0+random(0,5);
+        let y = this.ypos + i * 2+random(0,5);
+         if(random(0,1)<0.1){
+           noFill()
+           strokeWeight(random(0.1,2))
+         } else {
+           noFill()
+           strokeWeight(random(0.1,2))
+           stroke(255 )
+         }
+
+         strokeWeight(random(0.2,3))
+
+        ellipse(x, y, ((round(10 * (this.w / 110))-i)/round(10 * (this.w / 110)))*(w*random(5,18)));
       }
-      for (let i = 0; i < round(40 * (this.w / 110)); i+=random(2,5)) {
-        let x = this.xpos + i * 0;
-        let y = this.ypos + i * 2;
+      for (let i = 0; i < round(10 * (this.w / 110)); i+=random(3,4)) {
+        let x = this.xpos + i * 0+random(0,5);
+        let y = this.ypos + i * 2+random(0,5);
         // fill(0);
         stroke(0)
+        strokeWeight(random(0.1,2))
         noFill()
-        ellipse(x, y, 1*(w+random(0,6)));
+        ellipse(x, y, 1*(w+random(12,16)));
         //    print("dian", w);
       }
     } else {
@@ -305,8 +376,8 @@ class Caligraphy {
 
       for (let k =0;k<stampdepth;k++ ){
         let  ww=this.w+random(0,20);
-        let xx= this.xpos+k*stampspace*gx;
-        let yy=this.ypos-k*stampspace*gy;
+        let xx= this.xpos+k*stampspace*gx+random(1,130);
+        let yy=this.ypos-k*stampspace*gy+random(1,130);
         circle(xx , yy, ww);
 
       }
@@ -317,8 +388,8 @@ class Caligraphy {
       noFill(c);
       for (let k =0;k<stampdepth;k++ ){
         let  ww=this.w+random(0,20);
-        let xx= this.xpos+k*stampspace*gx;
-        let yy=this.ypos-k*stampspace*gy;
+        let xx= this.xpos+k*stampspace*gx+random(1,130);
+        let yy=this.ypos-k*stampspace*gy+random(1,130);
         rect(xx, yy, ww,ww);
       }
     }
